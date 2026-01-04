@@ -41,10 +41,10 @@ USERLANDH = $03 ; RAM page userland code starts
 ; Screen constants
 SCREENCLRH   = $08 ; Physical start of VRAM - Change this to the VRAM jumper mapping on the board
 SCREENSTARTH = $08 ; Change this to the page VRAM content starts depending on what makes your VGA screen happy! Default is $0800 == $08
-SCREENSTARTL = $8d             ; Top left of screen - may differ between VGA screens
+SCREENSTARTL = $4d             ; Top left of screen - may differ between VGA screens
 LINESTART = $0d ; For 640x480 you want to limit (end - start) to < 40 characters. If screen supports widescreen like 800x480 it matters less. 
 LINEEND = $37
-NUMLINES = 28
+NUMLINES = 25
 
 ;Custom keyboard mappings
 DN_ARR_KEY = $F3
@@ -1313,7 +1313,6 @@ rpa:
     jsr printa
     rts
 
-
 checkbottom:
     tya
     pha
@@ -1322,7 +1321,7 @@ checkbottom:
     bcc resetcursor ; Off screen
     cmp #$07+SCREENSTARTH
     bcc checkedbottom ; if we're not
-lda CRSRPNT ; Check LSB as well if we're above $2700
+lda CRSRPNT ; Check LSB as well if we're above screen size
 cmp #$80
 bcc checkedbottom
 resetcursor:
